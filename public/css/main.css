@@ -1,0 +1,13 @@
+.collection .collection-item.avatar .secondary-content{
+    top: 10px;
+}
+
+.tertiary-content{
+    position: absolute;
+    top: 45px;
+    right: 16px;
+}
+
+.collection .collection-item.avatar{
+    padding-left: 20px;
+}
