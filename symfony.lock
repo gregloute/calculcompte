@@ -1,4 +1,43 @@
 {
+    "amphp/amp": {
+        "version": "v2.4.4"
+    },
+    "amphp/byte-stream": {
+        "version": "v1.7.3"
+    },
+    "amphp/cache": {
+        "version": "v1.3.0"
+    },
+    "amphp/dns": {
+        "version": "v1.2.1"
+    },
+    "amphp/hpack": {
+        "version": "v3.1.0"
+    },
+    "amphp/http": {
+        "version": "v1.6.0"
+    },
+    "amphp/http-client": {
+        "version": "v4.3.1"
+    },
+    "amphp/parser": {
+        "version": "v1.0.0"
+    },
+    "amphp/process": {
+        "version": "v1.1.0"
+    },
+    "amphp/socket": {
+        "version": "v1.1.1"
+    },
+    "amphp/sync": {
+        "version": "v1.4.0"
+    },
+    "amphp/windows-registry": {
+        "version": "v0.3.2"
+    },
+    "daverandom/libdns": {
+        "version": "v2.0.2"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -96,6 +135,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "kelunik/certificate": {
+        "version": "v1.1.2"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -104,6 +146,15 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
+    },
+    "league/uri": {
+        "version": "6.2.1"
+    },
+    "league/uri-interfaces": {
+        "version": "2.1.0"
+    },
+    "league/uri-parser": {
+        "version": "1.4.1"
     },
     "monolog/monolog": {
         "version": "2.1.0"
@@ -137,6 +188,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/link": {
         "version": "1.0.0"
