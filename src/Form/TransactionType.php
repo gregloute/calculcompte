@@ -24,6 +24,7 @@ TransactionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Transaction::class,
+            'translation_domain' => 'forms',
         ]);
     }
 }
