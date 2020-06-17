@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
@@ -60,7 +61,7 @@ class Transaction
 
     public function __construct()
     {
-        $this->Surcompte = false;
+        $this->surcompte = false;
         $this->recurrent = false;
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
@@ -83,9 +84,13 @@ class Transaction
         return $this;
     }
 
-    public function getValeur(): ?float
+    public function getValeur(Bool $isCalcule = null): ?float
     {
-        return $this->valeur;
+        if ($isCalcule){
+            return $this->valeur;
+        }else{
+            return floatval(str_replace('-','',$this->valeur));
+        }
     }
 
     public function setValeur(float $valeur): self

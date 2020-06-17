@@ -137,7 +137,7 @@ class Mois
 
             if ($t->getSurcompte()){
                 dump($t);
-                $solde += $t->getValeur();
+                $solde += $t->getValeur(true);
             }
 
         }

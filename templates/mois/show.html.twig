@@ -45,8 +45,7 @@
         <div class="col s12">
             <div class="card-panel blue-grey darken-1">
                 <div class="white-text center-align">
-                    <a class="waves-effect waves-light btn red"><i class="material-icons left">add</i>Dépense</a>
-                    <a class="waves-effect waves-light btn green"><i class="material-icons left">add</i>Revenue</a>
+                    <a class="waves-effect waves-light btn green" href="{{ path('mois#newTransaction', {'id' : mois.id}) }}"><i class="material-icons left">add</i>Transaction</a>
                 </div>
             </div>
         </div>
@@ -62,7 +61,11 @@
                         Sur Compte: <i class="material-icons" style="vertical-align: top;">{% if transaction.surcompte %}check{% else %}close{% endif %}</i>
                     </p>
                     <a class="btn-floating btn-small waves-effect waves-light red secondary-content" href="{{ path('mois#editTransaction', {'id' : transaction.id})}}"><i class="material-icons">edit</i></a>
-                    <a class="btn-floating btn-small waves-effect waves-light red tertiary-content" href="#{{ transaction.id }}"><i class="material-icons">delete</i></a>
+                    <form method="post" action="{{ path('mois#delTransaction', {id: transaction.id}) }}" onsubmit="return confirm('Êtes vous vraiment sur ?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ transaction.id) }}">
+                        <button class="btn-floating btn-small waves-effect waves-light red tertiary-content"><i class="material-icons">delete</i></button>
+                    </form>
                 </li>
                 {%  endfor %}
             </ul>
