@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Mois;
 use App\Entity\Transaction;
+use App\Form\MoisType;
 use App\Form\TransactionType;
 use App\Repository\MoisRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,6 +44,29 @@ class MoisController extends AbstractController
     }
 
     /**
+     * @Route("/mois/new/", name="mois#new")
+     * @param Request $request
+     * @return Response
+     */
+    public function new(Request $request): Response
+    {
+        $mois = new Mois();
+        $form = $this->createForm(MoisType::class, $mois);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($mois);
+            $this->em->flush();
+            $this->addFlash('success', 'Le mois a bien été créé.');
+            return $this->redirectToRoute('mois#show',['id'=>$mois->getId()]);
+        }
+
+        return $this->render('mois/new.html.twig', [
+            "form" => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/mois/{id}", name="mois#show")
      * @param Mois $mois
      * @return Response
@@ -50,15 +74,56 @@ class MoisController extends AbstractController
     public function show(Mois $mois): Response
     {
 
-        dump($mois);
-
         return $this->render('mois/show.html.twig', [
             'mois' => $mois,
         ]);
     }
 
     /**
-     * @Route("/mois/transaction/edit/{id}", name="mois#editTransaction")
+     * @Route("/mois/edit/{id}", name="mois#edit", methods="GET|POST")
+     * @param Mois $mois
+     * @param Request $request
+     * @return Response
+     */
+    public function editMois(Mois $mois, Request $request): Response
+    {
+        $form = $this->createForm(MoisType::class, $mois);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $mois->setUpdatedAt(new \DateTime());
+            $this->em->persist($mois);
+            $this->em->flush();
+            return $this->redirectToRoute('mois#show',['id'=>$mois->getId()]);
+        }
+
+        return $this->render('mois/edit.html.twig', [
+            'mois' => $mois,
+            "form" => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/mois/del/{id}", name="mois#delMois", methods="DELETE")
+     * @param Mois $mois
+     * @param Request $request
+     * @return Response
+     */
+    public function delMois(Mois $mois, Request $request)
+    {
+
+        if($this->isCsrfTokenValid('delete'.$mois->getId(), $request->get('_token'))){
+
+            $this->em->remove($mois);
+            $this->em->flush();
+            $this->addFlash('success', 'Le mois a bien été supprimé.');
+
+        }
+        return $this->redirectToRoute('mois#index');
+    }
+
+    /**
+     * @Route("/mois/transaction/edit/{id}", name="mois#editTransaction", methods="GET|POST")
      * @param Transaction $transaction
      * @param Request $request
      * @return Response

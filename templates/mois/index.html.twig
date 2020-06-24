@@ -13,7 +13,7 @@
         <div class="col s12">
             <div class="card-panel blue-grey darken-1">
                 <div class="white-text center-align">
-                    <a class="waves-effect waves-light btn green"><i class="material-icons left">add</i>Mois</a>
+                    <a class="waves-effect waves-light btn green" href="{{ path('mois#new') }}"><i class="material-icons left">add</i>Mois</a>
                 </div>
             </div>
         </div>
@@ -27,7 +27,11 @@
                         dernière modification : {{ mois.updatedAt | date("d/m/Y") }}
                     </p>
                     <a class="btn-floating btn-small waves-effect waves-light red secondary-content" href="{{ path('mois#show', {'id' : mois.id }) }}"><i class="material-icons">edit</i></a>
-                    <a class="btn-floating btn-small waves-effect waves-light red tertiary-content" href="#{{ mois.id }}"><i class="material-icons">delete</i></a>
+                    <form method="post" action="{{ path('mois#delMois', {id: mois.id}) }}" onsubmit="return confirm('Êtes vous vraiment sur ?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mois.id) }}">
+                        <button class="btn-floating btn-small waves-effect waves-light red tertiary-content"><i class="material-icons">delete</i></button>
+                    </form>
                 </li>
                 {%  endfor %}
             </ul>

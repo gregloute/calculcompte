@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Mois{% endblock %}
+
+{% block body %}
+    <div class="row  valign-wrapper">
+        <div class="col s12 center-align">
+            <h3>Nouveau Mois</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <button class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+        </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
