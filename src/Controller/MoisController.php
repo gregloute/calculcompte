@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Mois;
 use App\Entity\Transaction;
+use App\Entity\Utilisateur;
 use App\Form\MoisType;
 use App\Form\TransactionType;
 use App\Repository\MoisRepository;
@@ -36,7 +37,9 @@ class MoisController extends AbstractController
      */
     public function index(): Response
     {
-        $moiss = $this->repository->findAll();
+
+        $user = $this->getUser();
+        $moiss = $user->getMois();
 
         return $this->render('mois/index.html.twig', [
             'moiss' => $moiss,
@@ -55,6 +58,8 @@ class MoisController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $user = $this->getUser();
+            $mois->setUser($user);
             $this->em->persist($mois);
             $this->em->flush();
             $this->addFlash('success', 'Le mois a bien été créé.');
@@ -73,6 +78,10 @@ class MoisController extends AbstractController
      */
     public function show(Mois $mois): Response
     {
+        $user = $this->getUser();
+        if ($mois->getUser()->getId() !== $user->getId()){
+            return $this->redirectToRoute('mois#index');
+        }
 
         return $this->render('mois/show.html.twig', [
             'mois' => $mois,

@@ -44,6 +44,12 @@ class Mois
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="mois")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->solde = 0;
@@ -178,5 +184,17 @@ class Mois
     public function getTransactions(): Collection
     {
         return $this->transactions;
+    }
+
+    public function getUser(): ?Utilisateur
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Utilisateur $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
