@@ -26,3 +26,9 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .error{
     color: red;
 }
+
+footer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
