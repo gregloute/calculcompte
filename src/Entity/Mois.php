@@ -142,7 +142,6 @@ class Mois
         foreach ($ts as $t) {
 
             if ($t->getSurcompte()){
-                dump($t);
                 $solde += $t->getValeur(true);
             }
 
