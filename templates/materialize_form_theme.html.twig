@@ -104,3 +104,19 @@
         </ul>
     {%- endif -%}
 {%- endblock form_errors -%}
+
+{%- block file_widget -%}
+    <div class="file-field input-field">
+        {%- set input_lang = 'en' -%}
+        {% if app is defined and app.request is defined %}{%- set input_lang = app.request.locale -%}{%- endif -%}
+        <div class="btn">
+            <span lang="{{ input_lang }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
+                FILE
+            </span>
+            <input type="file">
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+        </div>
+    </div>
+{%- endblock -%}
