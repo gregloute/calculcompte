@@ -67,6 +67,7 @@ class ImportExportController extends AbstractController
             }
             $this->em->flush();
             unlink($file);
+            return $this->redirectToRoute('mois#index');
         }
 
         return $this->render('import_export/import.html.twig', [
