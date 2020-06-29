@@ -39,3 +39,4 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/mois, roles: ROLE_USER }
+        - { path: ^/import-export, roles: ROLE_USER }

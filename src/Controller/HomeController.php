@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
+use App\Form\InscriptionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,7 +14,11 @@ class HomeController extends AbstractController
      */
     public function index()
     {
+        $utilisateur = new Utilisateur();
+        $form = $this->createForm(InscriptionType::class, $utilisateur);
+
         return $this->render('home/index.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

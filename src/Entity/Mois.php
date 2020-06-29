@@ -30,7 +30,7 @@ class Mois
     private $solde;
 
     /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="mois", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="mois", orphanRemoval=true, cascade={"persist"})
      */
     private $transactions;
 
