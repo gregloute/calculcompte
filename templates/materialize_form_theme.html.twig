@@ -113,7 +113,7 @@
             <span lang="{{ input_lang }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
                 FILE
             </span>
-            <input type="file">
+            <input type="file" id="import_file" name="import[file]" required="required">
         </div>
         <div class="file-path-wrapper">
             <input class="file-path validate" type="text">
