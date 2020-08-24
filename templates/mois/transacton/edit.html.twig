@@ -23,6 +23,9 @@
 
         {{ form_row(form._token) }}
 
+        <input type="hidden" name="_holdValue" value="{{ transaction.valeur }}">
+        <input type="hidden" name="_holdDep" value="{{ transaction.depense }}">
+
         <button class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
             <i class="material-icons right">send</i>
         </button>

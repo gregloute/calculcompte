@@ -50,12 +50,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="col s12">
+            <div class="card-panel blue-grey darken-1">
+                {% form_theme form 'materialize_form_theme_2.html.twig' %}
+                <div class="row">
+                    {{ form_start(form) }}
+                    {{ form_rest(form) }}
+                    <div class="input-field col s6">
+                        <button class="btn waves-effect waves-light indigo" type="submit">Rechercher
+                            <i class="material-icons right">search</i>
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row">
         <div class="col s12">
             <ul class="collection">
-                {% for transaction in mois.transactions %}
+                {% for transaction in transactions %}
                 <li class="collection-item avatar {% if transaction.depense %}red-text{% else %}green-text{% endif %}">
                     <span class="title">{{ transaction.nom }}</span>
                     <p>{{ transaction.valeur |format_currency('EUR')}}<br>

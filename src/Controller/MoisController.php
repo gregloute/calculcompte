@@ -3,11 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Mois;
+use App\Entity\MoisSearch;
 use App\Entity\Transaction;
+use App\Entity\TransactionSearch;
+use App\Form\MoisSearchType;
 use App\Form\MoisType;
+use App\Form\TransactionSearchType;
 use App\Form\TransactionType;
 use App\Repository\MoisRepository;
+use App\Repository\TransactionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,16 +39,21 @@ class MoisController extends AbstractController
 
     /**
      * @Route("/mois", name="mois#index")
+     * @param Request $request
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $search = new MoisSearch();
+        $form = $this->createForm(MoisSearchType::class, $search);
+        $form->handleRequest($request);
 
         $user = $this->getUser();
-        $moiss = $user->getMois();
+        $moiss = $this->repository->getMoisBySearch($search, $user);
 
         return $this->render('mois/index.html.twig', [
             'moiss' => $moiss,
+            'form' => $form->createView()
         ]);
     }
 
@@ -73,10 +85,18 @@ class MoisController extends AbstractController
     /**
      * @Route("/mois/{id}", name="mois#show")
      * @param Mois $mois
+     * @param Request $request
+     * @param TransactionRepository $repository
      * @return Response
      */
-    public function show(Mois $mois): Response
+    public function show(Mois $mois, Request $request, TransactionRepository $repository): Response
     {
+        $search = new TransactionSearch();
+        $form = $this->createForm(TransactionSearchType::class, $search);
+        $form->handleRequest($request);
+
+        $transactions = $repository->getTransactionBySearch($search,$mois);
+
         $user = $this->getUser();
         if ($mois->getUser()->getId() !== $user->getId()){
             return $this->redirectToRoute('mois#index');
@@ -84,6 +104,8 @@ class MoisController extends AbstractController
 
         return $this->render('mois/show.html.twig', [
             'mois' => $mois,
+            'form' => $form->createView(),
+            'transactions' => $transactions
         ]);
     }
 
@@ -134,23 +156,35 @@ class MoisController extends AbstractController
      * @Route("/mois/transaction/edit/{id}", name="mois#editTransaction", methods="GET|POST")
      * @param Transaction $transaction
      * @param Request $request
+     * @param TransactionRepository $repository
      * @return Response
      */
-    public function editTransaction(Transaction $transaction, Request $request): Response
+    public function editTransaction(Transaction $transaction, Request $request, TransactionRepository $repository): Response
     {
         $form = $this->createForm(TransactionType::class, $transaction);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()){
             $transaction->setUpdatedAt(new \DateTime());
             $transaction->getMois()->setUpdatedAt(new \DateTime());
 
+            $holdValeur = $request->get('_holdValue');
+            $holdDep = (boolval($request->get('_holdDep'))) ;
+
             /* on re rajoute la valeur au solde du mois */
-            $solde = $transaction->getMois()->getSolde() - $transaction->getValeur(true);
+
+            if ($holdDep){
+                $solde = $transaction->getMois()->getSolde() + $holdValeur;
+            }else{
+                $solde = $transaction->getMois()->getSolde() - $holdValeur;
+            }
+
             $transaction->getMois()->setSolde($solde);
 
             if ($transaction->getDepense()){
                 $transaction->setValeur("-".$transaction->getValeur());
+            }else{
+                $transaction->setValeur($transaction->getValeur());
             }
 
             $transaction->getMois()->setSolde($transaction->getMois()->getSolde()+$transaction->getValeur(true));

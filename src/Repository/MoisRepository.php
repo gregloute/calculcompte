@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Mois;
+use App\Entity\MoisSearch;
+use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,6 +47,28 @@ class MoisRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    /**
+     * @param MoisSearch $search
+     * @param Utilisateur $utilisateur
+     * @return Mois[]
+     */
+    public function getMoisBySearch(MoisSearch $search, Utilisateur $utilisateur){
+        $query = $this->createQueryBuilder('m')
+            ->AndWhere('m.user = :id')
+            ->setParameter('id', $utilisateur->getId());
+        if ($search->getMotsName() and is_array($search->getMotsName())){
+            foreach ($search->getMotsName() as $key => $mot){
+                $query = $query
+                    ->andWhere('m.nom LIKE :mot_'.$key)
+                    ->setParameter('mot_'.$key, '%'.$mot.'%');
+            }
+        }
+        return $query
+            ->addOrderBy('m.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

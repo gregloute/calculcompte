@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Mois;
 use App\Entity\Transaction;
+use App\Entity\TransactionSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -32,6 +34,34 @@ class TransactionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    /**
+     * @param $search
+     * @param Mois $mois
+     * @return Transaction[]
+     */
+    public function getTransactionBySearch(TransactionSearch $search, Mois $mois){
+        $query = $this->createQueryBuilder('t')
+            ->AndWhere('t.mois = :id')
+            ->setParameter('id', $mois->getId());
+            if ($search->getPrice()) {
+                dump(str_replace('.0','',$search->getPrice()));
+                $query = $query
+                    ->AndWhere('t.valeur = :valeur')
+                    ->setParameter('valeur', str_replace('.0','',$search->getPrice()));
+            }
+            if ($search->getMotsName() and is_array($search->getMotsName())){
+                foreach ($search->getMotsName() as $key => $mot){
+                    $query = $query
+                        ->andWhere('t.nom LIKE :mot_'.$key)
+                        ->setParameter('mot_'.$key, '%'.$mot.'%');
+                }
+            }
+            return $query
+                ->addOrderBy('t.created_at', 'DESC')
+                ->getQuery()
+                ->getResult();
     }
 
     // /**

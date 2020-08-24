@@ -51,6 +51,7 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Mois::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OrderBy({"created_at" = "DESC"})
      */
     private $mois;
 

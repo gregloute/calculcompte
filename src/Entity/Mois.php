@@ -31,6 +31,7 @@ class Mois
 
     /**
      * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="mois", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OrderBy({"created_at" = "DESC"})
      */
     private $transactions;
 

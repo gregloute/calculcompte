@@ -28,6 +28,23 @@
         </div>
 
         <div class="col s12">
+            <div class="card-panel blue-grey darken-1">
+                {% form_theme form 'materialize_form_theme_2.html.twig' %}
+                <div class="row">
+                    {{ form_start(form) }}
+                    {{ form_rest(form) }}
+                    <div class="input-field col s2">
+                        <button class="btn waves-effect waves-light indigo" type="submit">Rechercher
+                            <i class="material-icons right">search</i>
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12">
             <ul class="collection">
                 {% for mois in moiss %}
                 <li class="collection-item avatar">
