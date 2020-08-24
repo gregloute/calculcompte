@@ -99,7 +99,7 @@ class ImportExportController extends AbstractController
 
         $response->setContent($json);
         $response->headers->set('Content-type', 'application/json');
-        $response->headers->set('Content-disposition', 'attachment; filename=Data.calculecompte');
+        $response->headers->set('Content-disposition', 'attachment; filename=Data.calculcompte');
 
         return $response;
     }
