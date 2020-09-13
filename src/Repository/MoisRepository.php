@@ -50,6 +50,26 @@ class MoisRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $propriete
+     * @param $signe
+     * @param $valeur
+     * @return Mois
+     */
+    public function getDernierMoisParPropriete($propriete, $signe, $valeur){
+            $result = $this->createQueryBuilder('m')
+            ->andWhere('m.'.$propriete.' '.$signe.' :val')
+            ->setParameter('val', $valeur)
+            ->orderBy('m.created_at', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+            ;
+            foreach ($result as $mois){
+                return $mois;
+            }
+    }
+
+    /**
      * @param MoisSearch $search
      * @param Utilisateur $utilisateur
      * @return Mois[]

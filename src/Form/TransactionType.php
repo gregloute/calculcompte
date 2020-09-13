@@ -17,6 +17,7 @@ TransactionType extends AbstractType
             ->add('valeur')
             ->add('depense')
             ->add('surcompte')
+            ->add('recurrent')
         ;
     }
 

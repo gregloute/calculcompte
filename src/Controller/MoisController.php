@@ -6,6 +6,7 @@ use App\Entity\Mois;
 use App\Entity\MoisSearch;
 use App\Entity\Transaction;
 use App\Entity\TransactionSearch;
+use App\Entity\Utilisateur;
 use App\Form\MoisSearchType;
 use App\Form\MoisType;
 use App\Form\TransactionSearchType;
@@ -71,6 +72,25 @@ class MoisController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $user = $this->getUser();
             $mois->setUser($user);
+
+            $dernierMois = $this->repository->getDernierMoisParPropriete('user','=', $mois->getUser()->getId());
+            foreach ($dernierMois->getTransactions() as $transaction){
+                if ($transaction->getRecurrent()){
+                    $newTransaction = new Transaction();
+                    $newTransaction->setSurcompte($transaction->getSurcompte())
+                        ->setDepense($transaction->getDepense())
+                        ->setValeur($transaction->getValeur(true))
+                        ->setNom($transaction->getNom())
+                        ->setRecurrent($transaction->getRecurrent())
+                    ;
+
+                    $mois->addTransaction($newTransaction);
+                    $mois->setSolde($mois->getSolde() + $newTransaction->getValeur(true));
+                    $this->em->persist($newTransaction);
+                }
+            }
+
+
             $this->em->persist($mois);
             $this->em->flush();
             $this->addFlash('success', 'Le mois a bien été créé.');
