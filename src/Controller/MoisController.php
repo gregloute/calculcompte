@@ -77,7 +77,7 @@ class MoisController extends AbstractController
             foreach ($dernierMois->getTransactions() as $transaction){
                 if ($transaction->getRecurrent()){
                     $newTransaction = new Transaction();
-                    $newTransaction->setSurcompte($transaction->getSurcompte())
+                    $newTransaction->setSurcompte(false)
                         ->setDepense($transaction->getDepense())
                         ->setValeur($transaction->getValeur(true))
                         ->setNom($transaction->getNom())

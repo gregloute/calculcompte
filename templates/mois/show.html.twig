@@ -77,7 +77,8 @@
                     <span class="title">{{ transaction.nom }}</span>
                     <p>{{ transaction.valeur |format_currency('EUR')}}<br>
                         Sur Compte: <i class="material-icons" style="vertical-align: top;">{% if transaction.surcompte %}check{% else %}close{% endif %}</i><br>
-                        Recurrente: <i class="material-icons" style="vertical-align: top;">{% if transaction.recurrent %}star{% else %}star_border{% endif %}</i>
+                        Recurrente: <i class="material-icons" style="vertical-align: top;">{% if transaction.recurrent %}star{% else %}star_border{% endif %}</i><br>
+                        Crée : {{ transaction.createdAt | date("d/m/Y") }}
                     </p>
                     <a class="btn-floating btn-small waves-effect waves-light red secondary-content" href="{{ path('mois#editTransaction', {'id' : transaction.id})}}"><i class="material-icons">edit</i></a>
                     <form method="post" action="{{ path('mois#delTransaction', {id: transaction.id}) }}" onsubmit="return confirm('Êtes vous vraiment sur ?')">
