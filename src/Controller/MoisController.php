@@ -74,22 +74,23 @@ class MoisController extends AbstractController
             $mois->setUser($user);
 
             $dernierMois = $this->repository->getDernierMoisParPropriete('user','=', $mois->getUser()->getId());
-            foreach ($dernierMois->getTransactions() as $transaction){
-                if ($transaction->getRecurrent()){
-                    $newTransaction = new Transaction();
-                    $newTransaction->setSurcompte(false)
-                        ->setDepense($transaction->getDepense())
-                        ->setValeur($transaction->getValeur(true))
-                        ->setNom($transaction->getNom())
-                        ->setRecurrent($transaction->getRecurrent())
-                    ;
+            if (!is_null($dernierMois)) {
+                foreach ($dernierMois->getTransactions() as $transaction){
+                    if ($transaction->getRecurrent()){
+                        $newTransaction = new Transaction();
+                        $newTransaction->setSurcompte(false)
+                            ->setDepense($transaction->getDepense())
+                            ->setValeur($transaction->getValeur(true))
+                            ->setNom($transaction->getNom())
+                            ->setRecurrent($transaction->getRecurrent())
+                        ;
 
-                    $mois->addTransaction($newTransaction);
-                    $mois->setSolde($mois->getSolde() + $newTransaction->getValeur(true));
-                    $this->em->persist($newTransaction);
+                        $mois->addTransaction($newTransaction);
+                        $mois->setSolde($mois->getSolde() + $newTransaction->getValeur(true));
+                        $this->em->persist($newTransaction);
+                    }
                 }
             }
-
 
             $this->em->persist($mois);
             $this->em->flush();

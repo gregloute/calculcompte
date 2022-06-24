@@ -46,7 +46,6 @@ class TransactionRepository extends ServiceEntityRepository
             ->AndWhere('t.mois = :id')
             ->setParameter('id', $mois->getId());
             if ($search->getPrice()) {
-                dump(str_replace('.0','',$search->getPrice()));
                 $query = $query
                     ->AndWhere('t.valeur = :valeur')
                     ->setParameter('valeur', str_replace('.0','',$search->getPrice()));
