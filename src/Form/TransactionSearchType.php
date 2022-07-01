@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\TransactionSearch;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -30,6 +31,12 @@ class TransactionSearchType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Valeur'
                 ]
+            ])
+            ->add('depense',CheckboxType::class, [
+                'required' => false
+            ])
+            ->add('revenu',CheckboxType::class, [
+                'required' => false
             ])
         ;
     }

@@ -57,6 +57,34 @@ class TransactionRepository extends ServiceEntityRepository
                         ->setParameter('mot_'.$key, '%'.$mot.'%');
                 }
             }
+            if ($search->isdepense() and $search->isRevenu()){
+                if ($search->isdepense()){
+                    $query = $query
+                        ->andWhere('t.depense = :valeur')
+                        ->setParameter('valeur', $search->isdepense());
+                }
+                if ($search->isRevenu()){
+                    $query = $query
+                        ->orWhere('t.depense = :valeur2')
+                        ->setParameter('valeur2', 0)
+                        ->AndWhere('t.mois = :id')
+                        ->setParameter('id', $mois->getId());
+                }
+
+            }
+            else{
+                if ($search->isdepense()){
+                    $query = $query
+                        ->andWhere('t.depense = :valeur')
+                        ->setParameter('valeur', $search->isdepense());
+                }
+                if ($search->isRevenu()){
+                    $query = $query
+                        ->andWhere('t.depense = :valeur2')
+                        ->setParameter('valeur2', 0);
+                }
+            }
+
             return $query
                 ->addOrderBy('t.created_at', 'DESC')
                 ->getQuery()
