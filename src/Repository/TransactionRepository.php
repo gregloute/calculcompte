@@ -45,18 +45,7 @@ class TransactionRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('t')
             ->AndWhere('t.mois = :id')
             ->setParameter('id', $mois->getId());
-            if ($search->getPrice()) {
-                $query = $query
-                    ->AndWhere('t.valeur = :valeur')
-                    ->setParameter('valeur', str_replace('.0','',$search->getPrice()));
-            }
-            if ($search->getMotsName() and is_array($search->getMotsName())){
-                foreach ($search->getMotsName() as $key => $mot){
-                    $query = $query
-                        ->andWhere('t.nom LIKE :mot_'.$key)
-                        ->setParameter('mot_'.$key, '%'.$mot.'%');
-                }
-            }
+
             if ($search->isdepense() and $search->isRevenu()){
                 if ($search->isdepense()){
                     $query = $query
@@ -70,9 +59,33 @@ class TransactionRepository extends ServiceEntityRepository
                         ->AndWhere('t.mois = :id')
                         ->setParameter('id', $mois->getId());
                 }
+                if ($search->getPrice()) {
+                    $query = $query
+                        ->AndWhere('t.valeur = :valeur')
+                        ->setParameter('valeur', str_replace('.0','',$search->getPrice()));
+                }
+                if ($search->getMotsName() and is_array($search->getMotsName())){
+                    foreach ($search->getMotsName() as $key => $mot){
+                        $query = $query
+                            ->andWhere('t.nom LIKE :mot_'.$key)
+                            ->setParameter('mot_'.$key, '%'.$mot.'%');
+                    }
+                }
 
             }
             else{
+                if ($search->getPrice()) {
+                    $query = $query
+                        ->AndWhere('t.valeur = :valeur')
+                        ->setParameter('valeur', str_replace('.0','',$search->getPrice()));
+                }
+                if ($search->getMotsName() and is_array($search->getMotsName())){
+                    foreach ($search->getMotsName() as $key => $mot){
+                        $query = $query
+                            ->andWhere('t.nom LIKE :mot_'.$key)
+                            ->setParameter('mot_'.$key, '%'.$mot.'%');
+                    }
+                }
                 if ($search->isdepense()){
                     $query = $query
                         ->andWhere('t.depense = :valeur')

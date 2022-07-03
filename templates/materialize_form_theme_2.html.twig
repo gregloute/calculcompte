@@ -118,3 +118,41 @@
         </div>
     </div>
 {%- endblock -%}
+
+{% block radio_row -%}
+    <div class="row {% if not valid %} has-error{% endif %}">
+        {{- form_widget(form) -}}
+        {{- form_label(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock radio_row %}
+
+{% block radio_widget -%}
+    <input type="radio" class="with-gap"{{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{%- endblock radio_widget %}
+
+{# Checkbox label is raw here #}
+{%- block radio_label -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {{ block('radio_widget') }}
+        <span>{{ translation_domain is same as(false) ? label|raw : label|trans({}, translation_domain)|raw }}</span>
+        </label>
+    {%- endif -%}
+{%- endblock -%}
