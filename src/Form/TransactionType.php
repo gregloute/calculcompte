@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Transaction;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,9 +14,7 @@ TransactionType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('valeur', TextType::class, [
-                'data' => ''
-            ])
+            ->add('valeur')
             ->add('depense')
             ->add('surcompte')
             ->add('recurrent')
