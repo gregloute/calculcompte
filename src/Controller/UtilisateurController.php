@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UtilisateurController extends AbstractController
@@ -33,17 +33,17 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/inscription", name="inscription")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserPasswordHasherInterface $passwordHasher
      * @return Response
      */
-    public function index(Request $request, UserPasswordEncoderInterface $encoder)
+    public function index(Request $request, UserPasswordHasherInterface $passwordHasher)
     {
         $utilisateur = new Utilisateur();
         $form = $this->createForm(InscriptionType::class, $utilisateur);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $passwordCrypte = $encoder->encodePassword($utilisateur,$utilisateur->getPassword());
+            $passwordCrypte = $passwordHasher->hashPassword($utilisateur,$utilisateur->getPassword());
             $utilisateur->setPassword($passwordCrypte);
             $this->em->persist($utilisateur);
             $this->em->flush();
