@@ -9,6 +9,7 @@ use App\Entity\TransactionSearch;
 use App\Entity\Utilisateur;
 use App\Form\MoisSearchType;
 use App\Form\MoisType;
+use App\Form\NewTransactionType;
 use App\Form\TransactionSearchType;
 use App\Form\TransactionType;
 use App\Repository\MoisRepository;
@@ -229,7 +230,7 @@ class MoisController extends AbstractController
     public function newTransaction(Mois $mois, Request $request): Response
     {
         $transaction = new Transaction();
-        $form = $this->createForm(TransactionType::class, $transaction);
+        $form = $this->createForm(NewTransactionType::class, $transaction);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
