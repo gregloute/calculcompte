@@ -1,8 +1,12 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    encoders:
-        App\Entity\Utilisateur:
-            algorithm: auto
+    password_hashers:
+        # auto hasher with default options for the User class (and children)
+        App\Entity\Utilisateur: 'auto'
+
+        # auto hasher with custom options for all PasswordAuthenticatedUserInterface instances
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: 'auto'
+            cost: 15
     providers:
         users_in_memory: { memory: null }
         in_database:
@@ -15,7 +19,6 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
             lazy: true
             provider: in_database
 
