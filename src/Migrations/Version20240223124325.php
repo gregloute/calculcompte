@@ -27,7 +27,7 @@ final class Version20240223124325 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE utilisateur CHANGE roles roles VARCHAR(255) NOT NULL');
         $this->addSql('UPDATE utilisateur SET roles = "ROLE_USER"');
+        $this->addSql('ALTER TABLE utilisateur CHANGE roles roles VARCHAR(255) NOT NULL');
     }
 }
