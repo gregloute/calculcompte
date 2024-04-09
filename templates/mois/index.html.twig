@@ -3,65 +3,51 @@
 {% block title %}Les mois{% endblock %}
 
 {% block body %}
-    <div class="row  valign-wrapper">
-		<div class="col s12 center-align">
-            <h3>Tous les mois</h3>
+    <!-- Stats -->
+    <div class="section mt-4">
+        <div class="section-heading flex-justify-content">
+            <h2 class="title">Recherche</h2>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col s12">
-            <div class="card-panel blue-grey darken-1">
-                <div class="white-text center-align">
-                    <a class="waves-effect waves-light btn green" href="{{ path('mois#new') }}"><i class="material-icons left">add</i>Mois</a>
-
-                    <!-- Dropdown Trigger -->
-                    <a class='dropdown-trigger btn indigo' href='#' data-target='dropdown1'>Import Export</a>
-
-                    <!-- Dropdown Structure -->
-                    <ul id='dropdown1' class='dropdown-content'>
-                        <li><a href="{{ path('import_export#import') }}">Import</a></li>
-                        <li><a href="{{ path('import_export#export') }}">Export</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col s12">
-            <div class="card-panel blue-grey darken-1">
-                {% form_theme form 'materialize_form_theme_2.html.twig' %}
-                <div class="row">
-                    {{ form_start(form) }}
-                    {{ form_rest(form) }}
-                    <div class="input-field col s2">
-                        <button class="btn waves-effect waves-light indigo" type="submit">Rechercher
-                            <i class="material-icons right">search</i>
-                        </button>
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="stat-box">
+                    {% form_theme form 'bootstrap_5_layout.html.twig' %}
+                    <div class="row">
+                        {{ form(form) }}
                     </div>
-
-                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
+    </div>
+    <!-- * Stats -->
 
-        <div class="col s12">
-            <ul class="collection">
-                {% for mois in moiss %}
-                <li class="collection-item avatar">
-                    <span class="title">{{ mois.nom }}</span>
-                    <p>{{ mois.solde |format_currency('EUR')}}<br>
-                        dernière modification : {{ mois.updatedAt | date("d/m/Y") }}
-                    </p>
-                    <a class="btn-floating btn-small waves-effect waves-light red secondary-content" href="{{ path('mois#show', {'id' : mois.id }) }}"><i class="material-icons">edit</i></a>
-                    <form method="post" action="{{ path('mois#delMois', {id: mois.id}) }}" onsubmit="return confirm('Êtes vous vraiment sur ?')">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mois.id) }}">
-                        <button class="btn-floating btn-small waves-effect waves-light red tertiary-content"><i class="material-icons">delete</i></button>
-                    </form>
-                </li>
-                {%  endfor %}
-            </ul>
+    <!-- Transactions -->
+    <div class="section mt-4">
+        <div class="section-heading">
+            <h2 class="title">Tous les mois</h2>
+            <a href="{{ path('mois#new') }}" class="btn btn-icon btn-primary">
+                <ion-icon name="add-outline"></ion-icon>
+            </a>
+        </div>
+        <div class="transactions">
+            {% for mois in moiss %}
+                <!-- item -->
+                <a href="{{ path('mois#show', {'id' : mois.id})}}" class="item">
+                    <div class="detail">
+                        <div>
+                            <strong>{{ mois.nom }}</strong>
+                            <p>
+                                {{ mois.updatedAt | date("d/m/Y") }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="price {% if mois.soldNegatif %}text-danger{% endif %}">{{ mois.solde |format_currency('EUR')}}</div>
+                    </div>
+                </a>
+                <!-- * item -->
+            {%  endfor %}
         </div>
     </div>
-
+    <!-- * Transactions -->
 {% endblock %}

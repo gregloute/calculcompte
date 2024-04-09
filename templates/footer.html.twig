@@ -1,27 +1,8 @@
-<footer class="page-footer indigo">
-	<div class="container">
-		<div class="row">
-			<div class="col l4 offset-l2 s12">
-				<h5 class="white-text">Liens</h5>
-				<ul>
-					<li><a class="grey-text text-lighten-3" href="{{ path("home") }}">Accueil</a></li>
-					{% if app.user %}
-						<li><a class="grey-text text-lighten-3" href="{{ path('mois#index') }}">Les Mois</a></li>
-					{% endif %}
+<!-- app footer -->
+<div class="appFooter mt-3">
+	<div class="footer-title">
 
-					{% if not app.user %}
-						<li><a class="grey-text text-lighten-3" href="{{ path('inscription') }}">Inscription</a></li>
-						<li><a class="grey-text text-lighten-3" href="{{ path('connexion') }}">Login</a></li>
-					{% else %}
-						<li><a class="grey-text text-lighten-3" href="{{ path('deconnexion') }}">Logout</a></li>
-					{% endif %}
-				</ul>
-			</div>
-		</div>
 	</div>
-	<div class="footer-copyright">
-		<div class="container">
-			© 2020 Grégoire Breteau tous droits réservés
-		</div>
-	</div>
-</footer>
+	Bootstrap 5 based mobile template.
+</div>
+<!-- * app footer -->

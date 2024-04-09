@@ -3,43 +3,40 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-    <div class="row  valign-wrapper">
-        <div class="col s12 center-align">
-            <h3>Login</h3>
-        </div>
-    </div>
 
-    {% if error %}
-    <div class="row">
-        <div class="col s12">
-            <div class="card-panel red">
-        <span class="white-text">
-            {{ error.messageKey | trans(error.messageData,'security') }}
-        </span>
+{% if error %}
+    <div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
+        {{ error.messageKey | trans(error.messageData,'security') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}
+
+    <div class="section mt-4">
+        <div class="section-heading flex-justify-content">
+            <h2 class="title">Connexion</h2>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="stat-box">
+                    <div class="row">
+                        <form action="{{ path('connexion') }}" method="post">
+                            <div>
+                                <div class="form-group basic">
+                                    <label for="username" class="form-label">Login</label>
+                                    <input id="username" type="text" name="_username" required class="form-control">
+                                </div>
+                                <div class="form-group basic">
+                                    <label for="password" class="form-label">Mot de passe</label>
+                                    <input id="password" type="password" name="_password" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <button class="btn btn-primary btn-block btn-lg mt-2 btn" type="submit" name="action">Connexion</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    {% endif %}
-
-    <div class="row">
-        <form action="{{ path('connexion') }}" method="post" class="col s12">
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="username" type="text" name="_username" required class="validate">
-                    <label for="username">Login</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="password" type="password" name="_password" class="validate">
-                    <label for="password">Mot de passe</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12">
-                    <button class="btn waves-effect waves-light indigo" type="submit" name="action">Connexion</button>
-                </div>
-            </div>
-        </form>
     </div>
 {% endblock %}

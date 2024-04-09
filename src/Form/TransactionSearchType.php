@@ -6,6 +6,7 @@ use App\Entity\TransactionSearch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,23 +18,35 @@ class TransactionSearchType extends AbstractType
         $builder
             ->add('motsName', TextType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Name',
+                'label_attr' => ['class' => 'label'],
+                'row_attr' => [
+                    'class' => 'form-group basic',
+                ],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => 'Amazon'
                 ]
             ])
             ->add('price', NumberType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Value',
+                'label_attr' => ['class' => 'label'],
+                'row_attr' => [
+                    'class' => 'form-group basic',
+                ],
                 'attr' => [
-                    'placeholder' => 'Valeur'
+                    'placeholder' => '0,00'
                 ]
             ])
             ->add('depense',CheckboxType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('revenu',CheckboxType::class, [
-                'required' => false
+                'required' => false,
+            ])
+            ->add('recherche', SubmitType::class, [
+                'label' => 'Search',
+                'attr' => ['class' => 'btn btn-primary btn-block btn-lg '],
             ])
         ;
     }

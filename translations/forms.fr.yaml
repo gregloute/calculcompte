@@ -1,5 +1,9 @@
+Add: Ajouter
+Create: Créer
+Name: Nom
 Nom: Nom
-Valeur: Valeur
+Value: Valeur
+Delete: Supprimer
 Depense: Dépense
 Surcompte: Sur le compte
 Username: Nom d'utilisateur
@@ -8,3 +12,4 @@ Password confirm: Confirmation du mot de passe
 Search: Rechercher
 Revenu: Revenus
 Recurrent: Récurrent
+Modify: Modifier
