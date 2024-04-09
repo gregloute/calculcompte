@@ -178,8 +178,22 @@ class Mois
         return $totalDep;
     }
 
+    public function getRevenuTotal(): float
+    {
+        $ts = $this->getTransactions();
+
+        $totalRev = 0;
+        foreach ($ts as $t){
+            if (!$t->getDepense()){
+                $val = $t->getValeur();
+                $totalRev+= $val;
+            }
+        }
+        return $totalRev;
+    }
+
     /**
-     * @return Collection|Transaction[]
+     * @return Collection
      */
     public function getTransactions(): Collection
     {
@@ -196,5 +210,18 @@ class Mois
         $this->user = $user;
 
         return $this;
+    }
+
+    public function soldNegatif(): bool
+    {
+        $bool = false;
+        $sold = StrVal($this->solde);
+
+        if(str_contains($sold, '-'))
+        {
+            $bool = true;
+        }
+
+        return $bool;
     }
 }

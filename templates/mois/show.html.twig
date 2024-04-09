@@ -3,100 +3,119 @@
 {% block title %}{{mois.nom}}{% endblock %}
 
 {% block body %}
-    <div class="row  valign-wrapper">
-		<div class="col s12 center-align">
-            <h3>{{mois.nom}}</h3>
+    <div class="section wallet-card-section pt-1">
+        <div class="section-heading mt-2">
+            <h2 class="title z-index text-light ms-auto me-auto p-0">{{ mois.nom }}</h2>
+            <div class="z-index">
+                <a href="{{ path('mois#edit', {'id' : mois.id}) }}" class="btn btn-icon btn-light text-light me-1">
+                    <ion-icon name="create-outline"></ion-icon>
+                </a>
+                <form style="display: inline;" method="post" action="{{ path('mois#delMois', {id: mois.id}) }}" onsubmit="return confirm('Êtes vous vraiment sur ?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mois.id) }}">
+                    <button class="btn btn-icon btn-light text-light"><ion-icon name="trash-outline"></ion-icon></button>
+                </form>
+            </div>
+
+        </div>
+        <div class="wallet-card">
+            <!-- Balance -->
+            <div class="balance">
+                <div class="left">
+                    <span class="title">Sur le compte</span>
+                    <h1 class="total">{{ mois.soldeSurCompte }} €</h1>
+                </div>
+                <div class="right">
+                    <a href="{{ path('mois#newTransaction', {'id' : mois.id}) }}" class="button">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+            <!-- * Balance -->
+            <div class="balance border-top">
+                <div class="left">
+                    <span class="title">Fin du mois</span>
+                    <h1 class="total">{{ mois.solde }} €</h1>
+                </div>
+            </div>
         </div>
     </div>
+    <!-- Wallet Card -->
 
-    <div class="row">
-		<div class="col s6">
-            <div class="card-panel blue-grey darken-1">
-                <div class="white-text center-align">
-                    <h5>Solde fin du mois</h5>
-                    <p>{{ mois.solde |format_currency('EUR')}}</p>
+    <!-- Stats -->
+    <div class="section">
+        <div class="row mt-2">
+            <div class="col-6">
+                <div class="stat-box">
+                    <div class="title">Revenus</div>
+                    <div class="value text-success">{{ mois.revenuTotal }} €</div>
                 </div>
             </div>
-		</div>
-		<div class="col s6">
-            <div class="card-panel blue-grey darken-1">
-                <div class="white-text center-align">
-                    <h5>Solde sur le compte</h5>
-                    <p>{{mois.soldesurcompte |format_currency('EUR')}}</p>
+            <div class="col-6">
+                <div class="stat-box">
+                    <div class="title">Dépenses</div>
+                    <div class="value text-danger">{{ mois.depenseTotal }} €</div>
                 </div>
             </div>
         </div>
-
-        <div class="col s12">
-            <div class="card-panel blue-grey darken-1">
-                <div class="white-text center-align">
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="stat-box">
+                    <div class="title">Recherche</div>
+                    {% form_theme form 'bootstrap_5_layout.html.twig' %}
                     <div class="row">
-                        <div class="col s12">
-                            <p class="left">Nombre de dépense à venir: {{mois.nombredepenseavenir}}</p>
+                        {{ form_start(form) }}
+
+                        {{ form_row(form.motsName) }}
+
+                        {{ form_row(form.price) }}
+
+                        <div class="mb-3 mt-3">
+                            {{ form_row(form.depense) }}
                         </div>
-                        <div class="col s12">
-                            <p class="left">Dépense total: {{mois.depensetotal |format_currency('EUR')}}</p>
+                        <div class="mb-3">
+                            {{ form_row(form.revenu) }}
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col s12">
-            <div class="card-panel blue-grey darken-1">
-                <div class="white-text center-align">
-                    <a class="waves-effect waves-light btn green" href="{{ path('mois#newTransaction', {'id' : mois.id}) }}"><i class="material-icons left">add</i>Transaction</a>
-                    <a class="waves-effect waves-light btn red" href="{{ path('mois#edit', {'id' : mois.id}) }}"><i class="material-icons left">edit</i>Nom du mois</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col s12">
-            <div class="card-panel blue-grey darken-1">
-                {% form_theme form 'materialize_form_theme_2.html.twig' %}
-                <div class="row">
-                    {{ form_start(form) }}
-                    {{ form_row(form.motsName) }}
-                    {{ form_row(form.price) }}
-                    <div class="row" style="margin-left: 12px;">
-                        {{ form_label(form.depense) }}
+                        {{ form_end(form) }}
                     </div>
-                    <div class="row" style="margin-left: 12px;">
-                        {{ form_label(form.revenu) }}
-                    </div>
-                    <div class="input-field col s6">
-                        <button class="btn waves-effect waves-light indigo" type="submit">Rechercher
-                            <i class="material-icons right">search</i>
-                        </button>
-                    </div>
-
-                    {{ form_end(form, {'render_rest': false}) }}
                 </div>
             </div>
         </div>
     </div>
+    <!-- * Stats -->
 
-    <div class="row">
-        <div class="col s12">
-            <ul class="collection">
-                {% for transaction in transactions %}
-                <li class="collection-item avatar {% if transaction.depense %}red-text{% else %}green-text{% endif %}">
-                    <span class="title">{{ transaction.nom }}</span>
-                    <p>{{ transaction.valeur |format_currency('EUR')}}<br>
-                        Sur Compte: <i class="material-icons" style="vertical-align: top;">{% if transaction.surcompte %}check{% else %}close{% endif %}</i><br>
-                        Recurrente: <i class="material-icons" style="vertical-align: top;">{% if transaction.recurrent %}star{% else %}star_border{% endif %}</i><br>
-                        Crée : {{ transaction.createdAt | date("d/m/Y") }}
-                    </p>
-                    <a class="btn-floating btn-small waves-effect waves-light red secondary-content" href="{{ path('mois#editTransaction', {'id' : transaction.id})}}"><i class="material-icons">edit</i></a>
-                    <form method="post" action="{{ path('mois#delTransaction', {id: transaction.id}) }}" onsubmit="return confirm('Êtes vous vraiment sur ?')">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ transaction.id) }}">
-                        <button class="btn-floating btn-small waves-effect waves-light red tertiary-content"><i class="material-icons">delete</i></button>
-                    </form>
-                </li>
-                {%  endfor %}
-            </ul>
+    <!-- Transactions -->
+    <div class="section mt-4">
+        <div class="section-heading">
+            <h2 class="title">Transactions</h2>
+            <a href="" class="link">View All</a>
+        </div>
+        <div class="transactions">
+            {% for transaction in transactions %}
+            <!-- item -->
+            <a href="{{ path('mois#editTransaction', {'id' : transaction.id})}}" class="item">
+                <div class="detail">
+                    <img src="{{ asset('img/sample/brand/') }}{{ transaction.logo }}" alt="img" class="image-block imaged w48">
+                    <div>
+                        <strong>{{ transaction.nom }}</strong>
+                        <strong>
+                            <ion-icon class="icon" name="{% if transaction.surcompte %}wallet{% else %}wallet-outline{% endif %}"></ion-icon>
+                            <ion-icon class="icon" name="{% if transaction.recurrent %}star{% else %}star-outline{% endif %}"></ion-icon>
+                        </strong>
+                        <p>
+                            {{ transaction.createdAt | date("d/m/Y") }}
+                        </p>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="price {% if transaction.depense %}text-danger{% endif %}">{% if transaction.depense %}- {% else %}+ {% endif %}{{ transaction.valeur |format_currency('EUR')}}</div>
+                </div>
+            </a>
+            <!-- * item -->
+            {%  endfor %}
         </div>
     </div>
+    <!-- * Transactions -->
 
 {% endblock %}

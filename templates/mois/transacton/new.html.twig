@@ -3,33 +3,42 @@
 {% block title %}Ajout d'une transaction{% endblock %}
 
 {% block body %}
-    <div class="row  valign-wrapper">
-        <div class="col s12 center-align">
-            <h3>Ajout d'une transaction</h3>
+    <div class="section mt-4">
+        <div class="section-heading flex-justify-content">
+            <h2 class="title">Ajout d'une transaction</h2>
         </div>
-    </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="stat-box">
+                    {% form_theme form 'bootstrap_5_layout.html.twig' %}
+                    <div class="row">
+                        {{ form_start(form) }}
 
-    <div class="row">
-        {{ form_start(form) }}
-        {{ form_row(form.nom) }}
-        {{ form_row(form.valeur) }}
+                        {{ form_row(form.nom) }}
 
-        <div class="row">
-            {{ form_label(form.depense) }}
+                        {{ form_row(form.valeur) }}
+
+                        <div class="form-group basic">
+                            {{ form_row(form.logo) }}
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            {{ form_row(form.depense) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.surcompte) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.recurrent) }}
+                        </div>
+
+                        {{ form_row(form._token) }}
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            {{ form_label(form.surcompte) }}
-        </div>
-        <div class="row">
-            {{ form_label(form.recurrent) }}
-        </div>
-
-        {{ form_row(form._token) }}
-
-        <button class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
-            <i class="material-icons right">send</i>
-        </button>
-        {{ form_end(form, {'render_rest': false}) }}
     </div>
 {% endblock %}
 

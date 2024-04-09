@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\MoisSearch;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,10 +16,18 @@ class MoisSearchType extends AbstractType
         $builder
             ->add('motsName', TextType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Name',
+                'label_attr' => ['class' => 'label'],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => 'Name'
+                ],
+                'row_attr' => [
+                    'class' => 'form-group basic',
                 ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Search',
+                'attr' => ['class' => 'btn btn-primary btn-block btn-lg mt-2'],
             ])
         ;
     }

@@ -59,6 +59,24 @@ class Transaction
      */
     private $mois;
 
+    /**
+     * @var array
+     */
+    private array $listeLogo = ["amazon"=>"amazon.jpg","caf"=>"caf.jpg","caisseepargne"=>"caisseepargne.jpg","carrefour"=>"carrefour.jpg","default"=>"default.png","totalenergie"=>"totalenergie.jpg"];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $logo = null;
+
+    /**
+     * @return array liste de logo
+     */
+    public function getListeLogo(): array
+    {
+        return $this->listeLogo;
+    }
+
     public function __construct()
     {
         $this->surcompte = false;
@@ -168,6 +186,24 @@ class Transaction
     public function setMois(?Mois $mois): self
     {
         $this->mois = $mois;
+
+        return $this;
+    }
+
+    private function generateListeLogo (): array
+    {
+
+        return array();
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): static
+    {
+        $this->logo = $logo;
 
         return $this;
     }

@@ -3,18 +3,19 @@
 {% block title %}Modification d'un mois{% endblock %}
 
 {% block body %}
-    <div class="row  valign-wrapper">
-        <div class="col s12 center-align">
-            <h3>{{mois.nom}}</h3>
+    <div class="section mt-4">
+        <div class="section-heading flex-justify-content">
+            <h2 class="title">{{ mois.nom }}</h2>
         </div>
-    </div>
-
-    <div class="row">
-        {{ form_start(form) }}
-        {{ form_rest(form) }}
-        <button class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
-            <i class="material-icons right">send</i>
-        </button>
-        {{ form_end(form) }}
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="stat-box">
+                    {% form_theme form 'bootstrap_5_layout.html.twig' %}
+                    <div class="row">
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

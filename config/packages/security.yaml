@@ -25,6 +25,7 @@ security:
             form_login:
                 login_path: connexion
                 check_path: connexion
+                default_target_path: mois#index
 
             logout:
                 path: deconnexion
