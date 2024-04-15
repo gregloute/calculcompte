@@ -99,7 +99,7 @@ class TransactionRepository extends ServiceEntityRepository
             }
 
             return $query
-                ->addOrderBy('t.created_at', 'DESC')
+                ->addOrderBy('t.surcompte', 'ASC')
                 ->getQuery()
                 ->getResult();
     }
