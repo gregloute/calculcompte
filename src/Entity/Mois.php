@@ -164,6 +164,19 @@ class Mois
         return $nbDep;
     }
 
+    public function getNombreDepenseTotal(): int
+    {
+        $ts = $this->getTransactions();
+
+        $nbDep = 0;
+        foreach ($ts as $t){
+            if ($t->getDepense()){
+                $nbDep++;
+            }
+        }
+        return $nbDep;
+    }
+
     public function getDepenseTotal(): float
     {
         $ts = $this->getTransactions();

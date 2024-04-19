@@ -89,7 +89,7 @@
     <div class="section mt-4">
         <div class="section-heading">
             <h2 class="title">Transactions</h2>
-            <a href="" class="link">View All</a>
+            <p class="link">( {{ mois.nombreDepenseAVenir }} / {{ mois.nombreDepenseTotal }} )</p>
         </div>
         <div class="transactions">
             {% for transaction in transactions %}
@@ -100,8 +100,8 @@
                     <div>
                         <strong>{{ transaction.nom }}</strong>
                         <strong>
-                            <ion-icon class="icon" name="{% if transaction.surcompte %}wallet{% else %}wallet-outline{% endif %}"></ion-icon>
-                            <ion-icon class="icon" name="{% if transaction.recurrent %}star{% else %}star-outline{% endif %}"></ion-icon>
+                            <ion-icon class="icon {% if transaction.surcompte %}text-success{% else %}text-danger{% endif %}" name="{% if transaction.surcompte %}wallet{% else %}wallet-outline{% endif %}"></ion-icon>
+                            <ion-icon class="icon text-warning" name="{% if transaction.recurrent %}star{% else %}star-outline{% endif %}"></ion-icon>
                         </strong>
                         <p>
                             {{ transaction.createdAt | date("d/m/Y") }}

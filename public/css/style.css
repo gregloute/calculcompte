@@ -4464,6 +4464,7 @@ textarea,
     color: rgba(98, 54, 255, 0.5);
     font-size: 13px;
     font-weight: 500;
+    margin: 0;
 }
 .wallet-card-section {
     position: relative;
