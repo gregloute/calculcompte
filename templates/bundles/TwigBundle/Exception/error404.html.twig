@@ -3,18 +3,21 @@
 {% block title %}Error 404{% endblock %}
 
 {% block body %}
-    <div class="row  valign-wrapper">
-        <div class="col s12 center-align">
-            <h3>Page non trouvée</h3>
+
+    <div class="section">
+        <div class="splash-page mt-5 mb-5">
+            <h1>Erreur 404 !</h1>
+            <h2 class="mb-2">La page n'a pas été trouver !</h2>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col s12">
-            <div class="card-panel blue-grey darken-1">
-                <div class="white-text center-align">
-                    <p>La page demandée n'existe pas !</p>
-                </div>
+    <div class="fixed-bar">
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-lg btn-outline-secondary btn-block goBack" onclick="history.back();">Retour</button>
+            </div>
+            <div class="col-6">
+                <a href="{{ url('home') }}" class="btn btn-lg btn-primary btn-block">accueil</a>
             </div>
         </div>
     </div>
