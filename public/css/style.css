@@ -4625,6 +4625,7 @@ textarea,
     font-weight: 700;
     color: #27173e;
     letter-spacing: -0.03em;
+    width: max-content;
 }
 .shadowfix .owl-stage {
     padding-bottom: 0px;
