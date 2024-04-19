@@ -14,6 +14,11 @@ class HomeController extends AbstractController
      */
     public function index()
     {
+        $user = $this->getUser();
+        if(!is_null($user)){
+            return $this->redirectToRoute('mois#index');
+        }
+
         $utilisateur = new Utilisateur();
         $form = $this->createForm(InscriptionType::class, $utilisateur);
 

@@ -65,9 +65,10 @@ class Transaction
     private array $listeLogo = ["amazon"=>"amazon.jpg","caf"=>"caf.jpg","caisseepargne"=>"caisseepargne.jpg","carrefour"=>"carrefour.jpg","default"=>"default.png","totalenergie"=>"totalenergie.jpg"];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=LogoTransaction::class, inversedBy="transactions")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private ?string $logo = null;
+    private ?LogoTransaction $logo = null;
 
     /**
      * @return array liste de logo
@@ -190,18 +191,12 @@ class Transaction
         return $this;
     }
 
-    private function generateListeLogo (): array
-    {
-
-        return array();
-    }
-
-    public function getLogo(): ?string
+    public function getLogo(): ?LogoTransaction
     {
         return $this->logo;
     }
 
-    public function setLogo(string $logo): static
+    public function setLogo(?LogoTransaction $logo): static
     {
         $this->logo = $logo;
 

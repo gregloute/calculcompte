@@ -2,9 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\LogoTransaction;
 use App\Entity\Transaction;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -37,9 +38,9 @@ NewTransactionType extends AbstractType
                     'value' => ''
                 ]
             ])
-            ->add('logo', ChoiceType::class, [
-                'choices' => $liste,
-                'data' => "default.jpg",
+            ->add('logo', EntityType::class, [
+                'class' => LogoTransaction::class,
+                'choice_label' => 'nom',
                 'attr' => ['class' => 'form-control custom-select'],
                 'row_attr' => ['class' => 'input-wrapper'],
                 'label_attr' => ['class' => 'label']
