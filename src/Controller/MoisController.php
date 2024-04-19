@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\LogoTransaction;
 use App\Entity\Mois;
 use App\Entity\MoisSearch;
 use App\Entity\Transaction;
@@ -11,6 +12,7 @@ use App\Form\MoisType;
 use App\Form\NewTransactionType;
 use App\Form\TransactionSearchType;
 use App\Form\TransactionType;
+use App\Repository\LogoTransactionRepository;
 use App\Repository\MoisRepository;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -106,9 +108,10 @@ class MoisController extends AbstractController
      * @param Mois $mois
      * @param Request $request
      * @param TransactionRepository $repository
+     * @param LogoTransactionRepository $logoRepository
      * @return Response
      */
-    public function show(Mois $mois, Request $request, TransactionRepository $repository): Response
+    public function show(Mois $mois, Request $request, TransactionRepository $repository, LogoTransactionRepository $logoRepository): Response
     {
         $search = new TransactionSearch();
         $form = $this->createForm(TransactionSearchType::class, $search);

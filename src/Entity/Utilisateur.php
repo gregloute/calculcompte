@@ -35,7 +35,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="5",max="20",minMessage="Il faut plus de 5 carac",maxMessage="Il faut moins de 20 carac")
      */
     private $password;
 
@@ -59,7 +58,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->mois = new ArrayCollection();
-        $this->setRoles(null);
     }
 
     public function getId(): ?int
@@ -122,9 +120,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function setRoles(?string $roles): self
+    public function setRoles(array $roles): self
     {
-        $this->roles [] = $roles;
+        $this->roles = $roles;
 
         return $this;
     }
