@@ -16,6 +16,7 @@ use App\Repository\LogoTransactionRepository;
 use App\Repository\MoisRepository;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,10 +33,13 @@ class MoisController extends AbstractController
      */
     private $em;
 
-    public function __construct(MoisRepository $repository, EntityManagerInterface $em)
+    private $bugsnag;
+
+    public function __construct(MoisRepository $repository, EntityManagerInterface $em, \Bugsnag\Client $bugsnag)
     {
         $this->repository = $repository;
         $this->em = $em;
+        $this->bugsnag = $bugsnag;
     }
 
     /**
@@ -51,6 +55,9 @@ class MoisController extends AbstractController
 
         $user = $this->getUser();
         $moiss = $this->repository->getMoisBySearch($search, $user);
+
+        $this->bugsnag->notifyException(new RuntimeException("Test error"));
+        dump("test");
 
         return $this->render('mois/index.html.twig', [
             'moiss' => $moiss,
@@ -82,8 +89,6 @@ class MoisController extends AbstractController
                             ->setDepense($transaction->getDepense())
                             ->setValeur($transaction->getValeur(true))
                             ->setNom($transaction->getNom())
-                            ->setRecurrent($transaction->getRecurrent())
-                            ->setLogo($transaction->getLogo())
                         ;
 
                         $mois->addTransaction($newTransaction);
