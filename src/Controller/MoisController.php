@@ -83,6 +83,7 @@ class MoisController extends AbstractController
                             ->setValeur($transaction->getValeur(true))
                             ->setNom($transaction->getNom())
                             ->setRecurrent($transaction->getRecurrent())
+                            ->setLogo($transaction->getLogo())
                         ;
 
                         $mois->addTransaction($newTransaction);
