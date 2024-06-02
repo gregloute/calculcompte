@@ -1,3 +1,5 @@
+
+// darkmode //
 let darkToggle = document.querySelector('#darkmodeSwitch');
 
 let save = localStorage.getItem("theme");
@@ -16,3 +18,67 @@ darkToggle.addEventListener('change', ()=> {
         localStorage.setItem("theme","dark");
     }
 })
+
+// auto select logo transaction //
+
+function filter(champRecherche,listeElements,listeOptions){
+
+    const recherche = champRecherche.value.toLowerCase().split(' ');
+    listeElements.innerHTML = '';
+
+    console.log(recherche);
+
+    listeOptions.forEach((value, key) => {
+        const texteOption = value.toLowerCase();
+        for (let i = 0; i < recherche.length; i++){
+            if (texteOption.includes(recherche[i])) {
+                const option = document.createElement('option');
+                option.value = key+1;
+                option.textContent = value;
+                listeElements.appendChild(option);
+            }
+        }
+    });
+    console.log(listeElements.children.length);
+    if (listeElements.children.length === 0){
+        const option = document.createElement('option');
+        option.value = 1;
+        option.textContent = "Défaut";
+        listeElements.appendChild(option);
+    }
+
+}
+
+const champRecherche = document.getElementById('transaction_nom');
+const champRecherche2 = document.getElementById('new_transaction_nom');
+const listeElements = document.getElementById('transaction_logo');
+const listeElements2 = document.getElementById('new_transaction_logo');
+
+if (champRecherche != null && listeElements != null){
+
+    const listeOption = [];
+    for (const option of listeElements.children) {
+        listeOption.push(option.textContent)
+    }
+    console.log(listeOption);
+
+
+    champRecherche.addEventListener('input', () => {
+        filter(champRecherche,listeElements,listeOption)
+    })
+
+
+
+}
+if (champRecherche2 != null && listeElements2 != null){
+
+    const listeOption = [];
+    for (const option of listeElements2.children) {
+        listeOption.push(option.textContent)
+    }
+    console.log(listeOption);
+
+    champRecherche2.addEventListener( 'input', () => {
+        filter(champRecherche2,listeElements2,listeOption)
+    })
+}
