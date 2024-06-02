@@ -19,7 +19,7 @@ class LogoTransactionCrudController extends AbstractCrudController
     {
         return [
             TextField::new('nom'),
-            ImageField::new('fichier')->setLabel("Image")->setBasePath('img/sample/brand/')->setUploadDir('public/img/sample/brand/'),
+            ImageField::new('fichier')->setLabel("Image")->setBasePath('img/sample/brand/')->setUploadDir('public/img/sample/brand/')->setRequired(false),
         ];
     }
 }
