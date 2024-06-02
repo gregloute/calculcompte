@@ -34,6 +34,18 @@
 							</div>
 						</a>
 					</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li>
+								<a href="{{ path('admin') }}" class="item">
+									<div class="icon-box bg-primary">
+										<ion-icon name="wallet-outline"></ion-icon>
+									</div>
+									<div class="in">
+										Administration
+									</div>
+								</a>
+							</li>
+						{%  endif %}
 					<li>
 						<a href="{{ path('deconnexion') }}" class="item">
 							<div class="icon-box bg-primary">
