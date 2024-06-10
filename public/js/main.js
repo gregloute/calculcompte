@@ -23,10 +23,9 @@ darkToggle.addEventListener('change', ()=> {
 
 function filter(champRecherche,listeElements,listeOptions){
 
-    const recherche = champRecherche.value.toLowerCase().split(' ');
+    let recherche = champRecherche.value.toLowerCase().trim();
+    recherche = recherche.split(' ');
     listeElements.innerHTML = '';
-
-    console.log(recherche);
 
     listeOptions.forEach((value, key) => {
         const texteOption = value.toLowerCase();
@@ -39,7 +38,6 @@ function filter(champRecherche,listeElements,listeOptions){
             }
         }
     });
-    console.log(listeElements.children.length);
     if (listeElements.children.length === 0){
         const option = document.createElement('option');
         option.value = 1;
@@ -60,7 +58,6 @@ if (champRecherche != null && listeElements != null){
     for (const option of listeElements.children) {
         listeOption.push(option.textContent)
     }
-    console.log(listeOption);
 
 
     champRecherche.addEventListener('input', () => {
