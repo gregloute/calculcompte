@@ -6,7 +6,7 @@ use App\Entity\LogoTransaction;
 use App\Entity\Transaction;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -46,6 +46,10 @@ TransactionType extends AbstractType
             ->add('depense')
             ->add('surcompte')
             ->add('recurrent')
+            ->add('endAt', TextType::class, [
+                'required' => false,
+                'row_attr' => ['id' => 'endAt']
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Modify',
                 'attr' => ['class' => 'btn btn-primary btn-block btn-lg '],

@@ -19,6 +19,36 @@ darkToggle.addEventListener('change', ()=> {
     }
 })
 
+// affiche date picker //
+$(document).ready(function(){
+    hideEndAT($("#transaction_recurrent"));
+    hideEndAT($("#new_transaction_recurrent"));
+
+    function hideEndAT(checkbox){
+        if (checkbox.length) {
+            console.log(checkbox.is(':checked'))
+            if (checkbox.is(':checked')){
+                $("#endAt").show();
+            }else{
+                $("#endAt").hide();
+            }
+        }
+
+        checkbox.change(function(){
+            if ($(this).is(':checked')) {
+                $("#endAt").show();
+            } else {
+                $("#endAt").hide();
+            }
+        });
+    }
+});
+// date picker //
+$(function(){
+    $('#new_transaction_endAt').datepicker($.datepicker.regional['fr']);
+    $('#transaction_endAt').datepicker($.datepicker.regional['fr']);
+});
+
 // auto select logo transaction //
 
 function filter(champRecherche,listeElements,listeOptions){

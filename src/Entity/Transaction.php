@@ -71,6 +71,11 @@ class Transaction
     private ?LogoTransaction $logo = null;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?\DateTimeInterface $end_at = null;
+
+    /**
      * @return array liste de logo
      */
     public function getListeLogo(): array
@@ -200,6 +205,24 @@ class Transaction
     {
         $this->logo = $logo;
 
+        return $this;
+    }
+
+    public function getEndAt(): \DateTimeInterface|string|null
+    {
+        if(is_null($this->end_at)){
+             return null;
+        }
+        return date_format($this->end_at,'d/m/Y');
+    }
+
+    public function setEndAt(?string $end_at): static
+    {
+        if(is_null($end_at)){
+            $this->end_at = null;
+        }else{
+            $this->end_at = \DateTime::createFromFormat('d/m/Y', $end_at);
+        }
         return $this;
     }
 }

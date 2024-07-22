@@ -48,6 +48,10 @@ NewTransactionType extends AbstractType
             ->add('depense')
             ->add('surcompte')
             ->add('recurrent')
+            ->add('endAt', TextType::class, [
+                'required' => false,
+                'row_attr' => ['id' => 'endAt']
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Add',
                 'attr' => ['class' => 'btn btn-primary btn-block btn-lg '],
