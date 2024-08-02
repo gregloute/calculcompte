@@ -97,9 +97,6 @@ class TransactionRepository extends ServiceEntityRepository
                         ->setParameter('isrevenu', 0);
                 }
             }
-            dump($query
-                ->addOrderBy('t.surcompte', 'ASC')
-                ->getQuery());
             return $query
                 ->addOrderBy('t.surcompte', 'ASC')
                 ->getQuery()
