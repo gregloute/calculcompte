@@ -49,20 +49,20 @@ class TransactionRepository extends ServiceEntityRepository
             if ($search->isdepense() and $search->isRevenu()){
                 if ($search->isdepense()){
                     $query = $query
-                        ->andWhere('t.depense = :valeur')
-                        ->setParameter('valeur', $search->isdepense());
+                        ->andWhere('t.depense = :isdep')
+                        ->setParameter('isdep', $search->isdepense());
                 }
                 if ($search->isRevenu()){
                     $query = $query
-                        ->orWhere('t.depense = :valeur2')
-                        ->setParameter('valeur2', 0)
+                        ->orWhere('t.depense = :isrevenu')
+                        ->setParameter('isrevenu', 0)
                         ->AndWhere('t.mois = :id')
                         ->setParameter('id', $mois->getId());
                 }
                 if ($search->getPrice()) {
                     $query = $query
-                        ->AndWhere('t.valeur = :valeur')
-                        ->setParameter('valeur', str_replace('.0','',$search->getPrice()));
+                        ->AndWhere('t.valeur LIKE :valeur')
+                        ->setParameter('valeur', str_replace('.0','','%'.$search->getPrice()));
                 }
                 if ($search->getMotsName() and is_array($search->getMotsName())){
                     foreach ($search->getMotsName() as $key => $mot){
@@ -76,8 +76,8 @@ class TransactionRepository extends ServiceEntityRepository
             else{
                 if ($search->getPrice()) {
                     $query = $query
-                        ->AndWhere('t.valeur = :valeur')
-                        ->setParameter('valeur', str_replace('.0','',$search->getPrice()));
+                        ->AndWhere('t.valeur LIKE :valeur')
+                        ->setParameter('valeur', str_replace('.0','','%'.$search->getPrice()));
                 }
                 if ($search->getMotsName() and is_array($search->getMotsName())){
                     foreach ($search->getMotsName() as $key => $mot){
@@ -88,16 +88,18 @@ class TransactionRepository extends ServiceEntityRepository
                 }
                 if ($search->isdepense()){
                     $query = $query
-                        ->andWhere('t.depense = :valeur')
-                        ->setParameter('valeur', $search->isdepense());
+                        ->andWhere('t.depense = :isdep')
+                        ->setParameter('isdep', $search->isdepense());
                 }
                 if ($search->isRevenu()){
                     $query = $query
-                        ->andWhere('t.depense = :valeur2')
-                        ->setParameter('valeur2', 0);
+                        ->andWhere('t.depense = :isrevenu')
+                        ->setParameter('isrevenu', 0);
                 }
             }
-
+            dump($query
+                ->addOrderBy('t.surcompte', 'ASC')
+                ->getQuery());
             return $query
                 ->addOrderBy('t.surcompte', 'ASC')
                 ->getQuery()
