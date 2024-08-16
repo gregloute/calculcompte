@@ -148,7 +148,7 @@ class Mois
 
         }
 
-        return $solde;
+        return number_format($solde,2);
     }
 
     public function getNombreDepenseAVenir(): int
