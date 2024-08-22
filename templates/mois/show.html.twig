@@ -23,7 +23,7 @@
             <div class="balance">
                 <div class="left">
                     <span class="title">Sur le compte</span>
-                    <h1 class="total">{{ mois.soldeSurCompte|number_format(2) }} €</h1>
+                    <h1 class="total">{{ mois.soldeSurCompte|number_format(2,'.','') }} €</h1>
                 </div>
                 <div class="right">
                     <a href="{{ path('mois#newTransaction', {'id' : mois.id}) }}" class="button">
