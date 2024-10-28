@@ -232,8 +232,6 @@ class Transaction
         $dateDeFin = $this->end_at;
         $dateNow = new \DateTime('now');
 
-        dump($this->getNom());
-
         if ($dateDeFin == null) {
             return false;
         }

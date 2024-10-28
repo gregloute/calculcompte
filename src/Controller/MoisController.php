@@ -89,7 +89,7 @@ class MoisController extends AbstractController
                             ->setLogo($transaction->getLogo())
                             ->setEndAt($transaction->getEndAt())
                         ;
-                        
+
                         $mois->addTransaction($newTransaction);
                         $mois->setSolde($mois->getSolde() + $newTransaction->getValeur(true));
                         $this->em->persist($newTransaction);
