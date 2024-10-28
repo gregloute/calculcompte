@@ -77,6 +77,9 @@ class MoisController extends AbstractController
             if (!is_null($dernierMois)) {
                 foreach ($dernierMois->getTransactions() as $transaction){
                     if ($transaction->getRecurrent()){
+                        if ($transaction->isEndTransaction()){
+                            continue;
+                        }
                         $newTransaction = new Transaction();
                         $newTransaction->setSurcompte(false)
                             ->setDepense($transaction->getDepense())
@@ -86,7 +89,7 @@ class MoisController extends AbstractController
                             ->setLogo($transaction->getLogo())
                             ->setEndAt($transaction->getEndAt())
                         ;
-
+                        
                         $mois->addTransaction($newTransaction);
                         $mois->setSolde($mois->getSolde() + $newTransaction->getValeur(true));
                         $this->em->persist($newTransaction);

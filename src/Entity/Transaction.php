@@ -225,4 +225,30 @@ class Transaction
         }
         return $this;
     }
+
+    public function isEndTransaction(): bool
+    {
+        $bool = false;
+        $dateDeFin = $this->end_at;
+        $dateNow = new \DateTime('now');
+
+        dump($this->getNom());
+
+        if ($dateDeFin == null) {
+            return false;
+        }
+
+        $moisFin = date('n', $dateDeFin->getTimestamp());
+        $moisNow = date('n', $dateNow->getTimestamp());
+        $yearFin = date('Y', $dateDeFin->getTimestamp());
+        $yearNow = date('Y', $dateNow->getTimestamp());
+
+        if ($moisFin === $moisNow OR $moisNow > $moisFin){
+            if ($yearNow < $yearFin){
+                return false;
+            }
+            $bool = true;
+        }
+        return $bool;
+    }
 }
