@@ -68,11 +68,33 @@ function filter(champRecherche,listeElements,listeOptions){
             }
         }
     });
+
     if (listeElements.children.length === 0){
+        listeElements.innerHTML = '';
         const option = document.createElement('option');
         option.value = 1;
         option.textContent = "Défaut";
         listeElements.appendChild(option);
+    }else{
+        let addDefault = true;
+        for (let e = 0; e < listeElements.children.length; e++){
+            if (listeElements.children[e].label === "Défaut"){
+                addDefault = false;
+                console.log(listeElements.children[e].label)
+            }
+        }
+        if (addDefault){
+            for (let i = 0; i < listeOptions.length; i++){
+                if (i === listeOptions.length - 1){
+                    // defaut option //
+                    const option = document.createElement('option');
+                    option.value = 1;
+                    option.textContent = "Défaut";
+                    listeElements.appendChild(option);
+                }
+            }
+        }
+
     }
 
 }
@@ -103,7 +125,6 @@ if (champRecherche2 != null && listeElements2 != null){
     for (const option of listeElements2.children) {
         listeOption.push(option.textContent)
     }
-    console.log(listeOption);
 
     champRecherche2.addEventListener( 'input', () => {
         filter(champRecherche2,listeElements2,listeOption)
