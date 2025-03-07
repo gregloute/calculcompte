@@ -45,6 +45,10 @@ class UtilisateurController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $passwordCrypte = $passwordHasher->hashPassword($utilisateur,$utilisateur->getPassword());
             $utilisateur->setPassword($passwordCrypte);
+            $array = array(
+              "1" => "ROLE_USER"
+            );
+            $utilisateur->setRoles($array);
             $this->em->persist($utilisateur);
             $this->em->flush();
             return $this->redirectToRoute('mois#index');
