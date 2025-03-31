@@ -46,15 +46,14 @@ class UtilisateurController extends AbstractController
             $passwordCrypte = $passwordHasher->hashPassword($utilisateur,$utilisateur->getPassword());
             $utilisateur->setPassword($passwordCrypte);
             $array = array(
-              "1" => "ROLE_USER"
+                "1" => "ROLE_USER"
             );
             $utilisateur->setRoles($array);
             $this->em->persist($utilisateur);
             $this->em->flush();
             return $this->redirectToRoute('mois#index');
         }
-
-        return $this->render('utilisateur/inscription.html.twig',[
+        return $this->render('utilisateur/inscription.html.twig', [
             'form' => $form->createView()
         ]);
     }

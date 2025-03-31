@@ -5,15 +5,20 @@
 {% block body %}
     <div class="section wallet-card-section pt-1">
         <div class="section-heading mt-2">
+            <div class="z-index">
+                <a href="{{ path('mois#index') }}" class="btn btn-icon btn-light text-light me-1">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </div>
             <h2 class="title z-index text-light ms-auto me-auto p-0">{{ mois.nom }}</h2>
             <div class="z-index">
                 <a href="{{ path('mois#edit', {'id' : mois.id}) }}" class="btn btn-icon btn-light text-light me-1">
-                    <ion-icon name="create-outline"></ion-icon>
+                    <i class="bi bi-plus-lg"></i>
                 </a>
                 <form style="display: inline;" method="post" action="{{ path('mois#delMois', {id: mois.id}) }}" onsubmit="return confirm('Êtes vous vraiment sur ?')">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mois.id) }}">
-                    <button class="btn btn-icon btn-light text-light"><ion-icon name="trash-outline"></ion-icon></button>
+                    <button class="btn btn-icon btn-light text-light"><i class="bi bi-trash"></i></button>
                 </form>
             </div>
 
@@ -27,7 +32,7 @@
                 </div>
                 <div class="right">
                     <a href="{{ path('mois#newTransaction', {'id' : mois.id}) }}" class="button">
-                        <ion-icon name="add-outline"></ion-icon>
+                        <i class="bi bi-plus-lg"></i>
                     </a>
                 </div>
             </div>
@@ -100,8 +105,8 @@
                     <div>
                         <strong>{{ transaction.nom }}</strong>
                         <strong>
-                            <ion-icon class="icon {% if transaction.surcompte %}text-success{% else %}text-danger{% endif %}" name="{% if transaction.surcompte %}wallet{% else %}wallet-outline{% endif %}"></ion-icon>
-                            <ion-icon class="icon text-warning" name="{% if transaction.recurrent %}star{% else %}star-outline{% endif %}"></ion-icon>
+                            <i class="icon bi bi-wallet2 {% if transaction.surcompte %}text-success{% else %}text-danger{% endif %}"></i>
+                            <i class="icon text-warning bi {% if transaction.recurrent %}bi-star-fill{% else %}bi-star{% endif %}"></i>
                         </strong>
                         <p>
                             {{ transaction.createdAt | date("d/m/Y") }}

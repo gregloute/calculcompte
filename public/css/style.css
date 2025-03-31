@@ -82,9 +82,9 @@ a:focus {
     position: absolute;
 }
 .appHeader .left .icon,
-.appHeader .left ion-icon,
+.appHeader .left i,
 .appHeader .right .icon,
-.appHeader .right ion-icon {
+.appHeader .right i {
     font-size: 26px;
 }
 .appHeader .left .headerButton,
@@ -1502,9 +1502,10 @@ a.badge-dark {
     padding: 0;
 }
 .btn-icon i.icon,
-.btn-icon ion-icon {
+.btn-icon i {
     text-align: center;
     margin: 0 !important;
+    font-size: 26px;
 }
 .btn-facebook {
     color: #fff !important;
