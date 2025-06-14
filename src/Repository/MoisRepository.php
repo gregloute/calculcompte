@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Mois;
 use App\Entity\MoisSearch;
+use App\Entity\Transaction;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -151,6 +152,24 @@ class MoisRepository extends ServiceEntityRepository
             ->addOrderBy('m.created_at', 'DESC') // Trie les résultats par date de création du mois (du plus récent au plus ancien).
             ->getQuery()
             ->getResult(); // Exécute la requête et retourne les objets Mois.
+    }
+
+    /**
+     * Récupère un mois par son ID en joignant (eager loading) l'utilisateur associé.
+     * Cela permet d'éviter une requête SQL supplémentaire lorsque $mois->getUser() est appelé.
+     *
+     * @param int $id L'ID du mois à récupérer.
+     * @return Mois|null L'objet Mois avec l'utilisateur déjà chargé, ou null si non trouvé.
+     */
+    public function findOneByIdWithUser(int $id): ?Mois
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('u') // Indique que nous voulons sélectionner aussi l'entité 'User'
+            ->leftJoin('m.user', 'u') // Effectue une jointure sur la relation 'user' de l'entité Mois
+            ->andWhere('m.id = :id') // Filtre par l'ID du mois
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult(); // Récupère un seul résultat ou null
     }
 
     // /**

@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MoisController extends AbstractController
@@ -114,26 +115,49 @@ class MoisController extends AbstractController
     }
 
     /**
+     * Affiche les détails d'un mois et ses transactions, avec des optimisations de requêtes.
+     *
      * @Route("/mois/{id}", name="mois#show")
-     * @param Mois $mois
+     * @param int $id L'ID du mois à afficher (le ParamConverter ne sera plus utilisé pour charger le mois ici).
      * @param Request $request
-     * @param TransactionRepository $repository
-     * @param LogoTransactionRepository $logoRepository
+     * @param TransactionRepository $transactionRepository Le dépôt pour les transactions.
+     * @param MoisRepository $moisRepository Le dépôt pour les mois, utilisé pour le chargement "eager".
      * @return Response
      */
-    public function show(Mois $mois, Request $request, TransactionRepository $repository, LogoTransactionRepository $logoRepository): Response
-    {
+    public function show(
+        int $id, // Nous prenons l'ID directement pour charger le Mois nous-mêmes
+        Request $request,
+        TransactionRepository $transactionRepository,
+        MoisRepository $moisRepository // Injection du MoisRepository
+    ): Response {
+        // 1. Charger le Mois avec l'utilisateur associé pour éviter le lazy loading.
+        // Ceci remplace le chargement par défaut du ParamConverter pour cette route spécifique,
+        // garantissant que la relation 'user' du mois est déjà chargée.
+        $mois = $moisRepository->findOneByIdWithUser($id);
+
+        // Si le mois n'est pas trouvé, lance une exception 404.
+        if (!$mois) {
+            throw new NotFoundHttpException('Le mois demandé n\'existe pas.');
+        }
+
+        // 2. Vérification de l'accès (utilisateur courant vs utilisateur du mois).
+        // Le user du mois est déjà chargé, donc pas de requête supplémentaire ici.
+        $currentUser = $this->getUser();
+        if ($mois->getUser()->getId() !== $currentUser->getId()){
+            // Redirection vers une route d'index, par exemple, si l'accès est refusé.
+            // Assurez-vous que 'mois_index' est une route valide.
+            return $this->redirectToRoute('mois#index');
+        }
+
+        // 3. Traitement du formulaire de recherche de transactions.
         $search = new TransactionSearch();
         $form = $this->createForm(TransactionSearchType::class, $search);
         $form->handleRequest($request);
 
-        $transactions = $repository->getTransactionBySearch($search,$mois);
+        // 4. Récupération des transactions avec la fonction optimisée (une seule requête ici).
+        $transactions = $transactionRepository->getTransactionBySearch($search, $mois);
 
-        $user = $this->getUser();
-        if ($mois->getUser()->getId() !== $user->getId()){
-            return $this->redirectToRoute('mois#index');
-        }
-
+        // 5. Rendu de la vue Twig.
         return $this->render('mois/show.html.twig', [
             'mois' => $mois,
             'form' => $form->createView(),
