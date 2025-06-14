@@ -45,16 +45,21 @@ class MoisController extends AbstractController
      */
     public function index(Request $request): Response
     {
+        $isSearch = false;
         $search = new MoisSearch();
         $form = $this->createForm(MoisSearchType::class, $search);
         $form->handleRequest($request);
+        if ($form->isSubmitted()){
+            $isSearch = true;
+        }
 
         $user = $this->getUser();
         $moiss = $this->repository->getMoisBySearch($search, $user);
 
         return $this->render('mois/index.html.twig', [
             'moiss' => $moiss,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'isSearch' => $isSearch
         ]);
     }
 

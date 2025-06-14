@@ -30,23 +30,70 @@
             </a>
         </div>
         <div class="transactions">
-            {% for mois in moiss %}
-                <!-- item -->
-                <a href="{{ path('mois#show', {'id' : mois.id})}}" class="item">
-                    <div class="detail">
-                        <div>
-                            <strong>{{ mois.nom }}</strong>
-                            <p>
-                                {{ mois.updatedAt | date("d/m/Y") }}
-                            </p>
+            {% if isSearch %}
+                {% for mois in moiss %}
+                    <!-- item -->
+                    <a href="{{ path('mois#show', {'id' : mois.id})}}" class="item">
+                        <div class="detail">
+                            <div>
+                                <strong>{{ mois.nom }}</strong>
+                                <p>
+                                    {{ mois.updatedAt | date("d/m/Y") }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="right">
-                        <div class="price {% if mois.soldNegatif %}text-danger{% endif %}">{{ mois.solde |format_currency('EUR')}}</div>
-                    </div>
-                </a>
-                <!-- * item -->
-            {%  endfor %}
+                        <div class="right">
+                            <div class="price {% if mois.soldNegatif %}text-danger{% endif %}">{{ mois.solde |format_currency('EUR')}}</div>
+                        </div>
+                    </a>
+                    <!-- * item -->
+                    {% for transaction in mois.transactions %}
+                        <!-- item -->
+                        <a href="{{ path('mois#editTransaction', {'id' : transaction.id})}}" class="item" style="margin-left: 2rem">
+                            <div class="detail">
+                                <img src="{{ asset('img/sample/brand/') }}{{ transaction.logo.fichier }}" alt="img" class="image-block imaged w48">
+                                <div>
+                                    <strong>{{ transaction.nom }}</strong>
+                                    <strong>
+                                        <i class="icon bi bi-wallet2 {% if transaction.surcompte %}text-success{% else %}text-danger{% endif %}"></i>
+                                        <i class="icon text-warning bi {% if transaction.recurrent %}bi-star-fill{% else %}bi-star{% endif %}"></i>
+                                    </strong>
+                                    <p>
+                                        {{ transaction.createdAt | date("d/m/Y") }}
+                                    </p>
+                                    {% if transaction.endAt is not null %}
+                                        <p>
+                                            Fin le {{ transaction.endAt }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="price {% if transaction.depense %}text-danger{% endif %}">{% if transaction.depense %}- {% else %}+ {% endif %}{{ transaction.valeur |format_currency('EUR')}}</div>
+                            </div>
+                        </a>
+                        <!-- * item -->
+                    {%  endfor %}
+                {%  endfor %}
+            {% else %}
+                {% for mois in moiss %}
+                    <!-- item -->
+                    <a href="{{ path('mois#show', {'id' : mois.id})}}" class="item">
+                        <div class="detail">
+                            <div>
+                                <strong>{{ mois.nom }}</strong>
+                                <p>
+                                    {{ mois.updatedAt | date("d/m/Y") }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="price {% if mois.soldNegatif %}text-danger{% endif %}">{{ mois.solde |format_currency('EUR')}}</div>
+                        </div>
+                    </a>
+                    <!-- * item -->
+                {%  endfor %}
+            {% endif %}
         </div>
     </div>
     <!-- * Transactions -->
