@@ -17,7 +17,6 @@ NewTransactionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $liste = $builder->getData()->getListeLogo();
         $builder
             ->add('nom', TextType::class, [
                 'required' => true,

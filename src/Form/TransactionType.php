@@ -6,7 +6,6 @@ use App\Entity\LogoTransaction;
 use App\Entity\Transaction;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,7 +17,6 @@ TransactionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $liste = $builder->getData()->getListeLogo();
         $builder
             ->add('nom', TextType::class, [
                 'required' => true,

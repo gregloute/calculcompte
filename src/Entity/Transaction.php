@@ -60,11 +60,6 @@ class Transaction
     private $mois;
 
     /**
-     * @var array
-     */
-    private array $listeLogo = ["amazon"=>"amazon.jpg","caf"=>"caf.jpg","caisseepargne"=>"caisseepargne.jpg","carrefour"=>"carrefour.jpg","default"=>"default.png","totalenergie"=>"totalenergie.jpg"];
-
-    /**
      * @ORM\ManyToOne(targetEntity=LogoTransaction::class, inversedBy="transactions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -74,14 +69,6 @@ class Transaction
      * @ORM\Column(type="datetime", nullable=true)
      */
     private ?\DateTimeInterface $end_at = null;
-
-    /**
-     * @return array liste de logo
-     */
-    public function getListeLogo(): array
-    {
-        return $this->listeLogo;
-    }
 
     public function __construct()
     {
