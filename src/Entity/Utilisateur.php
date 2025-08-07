@@ -11,48 +11,31 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
- * @UniqueEntity(
- *     fields={"username"},
- *     message="Le nom d'utilisateur existe déjà"
- *     )
- */
+#[UniqueEntity(fields: ['username'], message: "Le nom d'utilisateur existe déjà")]
+#[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="5",max="10",minMessage="Il faut plus de 5 carac",maxMessage="Il faut moins de 10 carac")
-     */
+    #[Assert\Length(min: 5, max: 10, minMessage: 'Il faut plus de 5 carac', maxMessage: 'Il faut moins de 10 carac')]
+    #[ORM\Column(type: 'string', length: 255)]
     private $username;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $password;
 
-    /**
-     * @Assert\Length(min="5",max="20",minMessage="Il faut plus de 5 carac",maxMessage="Il faut moins de 20 carac")
-     * @Assert\EqualTo(propertyPath="password",message="Les mdp ne sont pas équivalents")
-     */
+    #[Assert\Length(min: 5, max: 20, minMessage: 'Il faut plus de 5 carac', maxMessage: 'Il faut moins de 20 carac')]
+    #[Assert\EqualTo(propertyPath: 'password', message: 'Les mdp ne sont pas équivalents')]
     private $passwordConfirm;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     private array $roles;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Mois::class, mappedBy="user", orphanRemoval=true)
-     * @ORM\OrderBy({"created_at" = "DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: Mois::class, mappedBy: 'user', orphanRemoval: true)]
+    #[ORM\OrderBy(['created_at' => 'DESC'])]
     private $mois;
 
     public function __construct()

@@ -7,48 +7,32 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=MoisRepository::class)
- */
+#[ORM\Entity(repositoryClass: MoisRepository::class)]
 class Mois
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $nom;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $solde;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="mois", orphanRemoval=true, cascade={"persist"})
-     * @ORM\OrderBy({"created_at" = "DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'mois', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['created_at' => 'DESC'])]
     private $transactions;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $created_at;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $updated_at;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="mois")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'mois')]
+    #[ORM\JoinColumn(nullable: false)]
     private $user;
 
     public function __construct()

@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class MoisFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $m1 = new Mois();
         $m1->setNom('Juin')

@@ -40,10 +40,10 @@ class MoisController extends AbstractController
     }
 
     /**
-     * @Route("/mois", name="mois#index")
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/mois', name: 'mois#index')]
     public function index(Request $request): Response
     {
         $isSearch = false;
@@ -65,10 +65,10 @@ class MoisController extends AbstractController
     }
 
     /**
-     * @Route("/mois/new/", name="mois#new")
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/mois/new/', name: 'mois#new')]
     public function new(Request $request): Response
     {
         $mois = new Mois();
@@ -117,13 +117,13 @@ class MoisController extends AbstractController
     /**
      * Affiche les détails d'un mois et ses transactions, avec des optimisations de requêtes.
      *
-     * @Route("/mois/{id}", name="mois#show")
      * @param int $id L'ID du mois à afficher (le ParamConverter ne sera plus utilisé pour charger le mois ici).
      * @param Request $request
      * @param TransactionRepository $transactionRepository Le dépôt pour les transactions.
      * @param MoisRepository $moisRepository Le dépôt pour les mois, utilisé pour le chargement "eager".
      * @return Response
      */
+    #[Route(path: '/mois/{id}', name: 'mois#show')]
     public function show(
         int $id, // Nous prenons l'ID directement pour charger le Mois nous-mêmes
         Request $request,
@@ -166,11 +166,11 @@ class MoisController extends AbstractController
     }
 
     /**
-     * @Route("/mois/edit/{id}", name="mois#edit", methods="GET|POST")
      * @param Mois $mois
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/mois/edit/{id}', name: 'mois#edit', methods: 'GET|POST')]
     public function editMois(Mois $mois, Request $request): Response
     {
         $form = $this->createForm(MoisType::class, $mois);
@@ -190,11 +190,11 @@ class MoisController extends AbstractController
     }
 
     /**
-     * @Route("/mois/del/{id}", name="mois#delMois", methods="DELETE")
      * @param Mois $mois
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/mois/del/{id}', name: 'mois#delMois', methods: 'DELETE')]
     public function delMois(Mois $mois, Request $request)
     {
 
@@ -209,12 +209,12 @@ class MoisController extends AbstractController
     }
 
     /**
-     * @Route("/mois/transaction/edit/{id}", name="mois#editTransaction", methods="GET|POST")
      * @param Transaction $transaction
      * @param Request $request
      * @param TransactionRepository $repository
      * @return Response
      */
+    #[Route(path: '/mois/transaction/edit/{id}', name: 'mois#editTransaction', methods: 'GET|POST')]
     public function editTransaction(Transaction $transaction, Request $request, TransactionRepository $repository): Response
     {
         $form = $this->createForm(TransactionType::class, $transaction);
@@ -256,11 +256,11 @@ class MoisController extends AbstractController
     }
 
     /**
-     * @Route("/mois/transaction/new-{id}", name="mois#newTransaction")
      * @param Mois $mois
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/mois/transaction/new-{id}', name: 'mois#newTransaction')]
     public function newTransaction(Mois $mois, Request $request): Response
     {
         $transaction = new Transaction();
@@ -290,11 +290,11 @@ class MoisController extends AbstractController
     }
 
     /**
-     * @Route("/mois/transaction/del/{id}", name="mois#delTransaction", methods="DELETE")
      * @param Transaction $transaction
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/mois/transaction/del/{id}', name: 'mois#delTransaction', methods: 'DELETE')]
     public function delTransaction(Transaction $transaction, Request $request)
     {
 

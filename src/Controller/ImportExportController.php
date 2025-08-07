@@ -35,10 +35,10 @@ class ImportExportController extends AbstractController
     }
 
     /**
-     * @Route("/import-export/import", name="import_export#import")
      * @param Request $request
      * @return Response
      */
+    #[Route(path: '/import-export/import', name: 'import_export#import')]
     public function import(Request $request)
     {
         $user = $this->getUser();
@@ -76,9 +76,9 @@ class ImportExportController extends AbstractController
     }
 
     /**
-     * @Route("/import-export/export", name="import_export#export")
      * @return Response
      */
+    #[Route(path: '/import-export/export', name: 'import_export#export')]
     public function export()
     {
         $user = $this->getUser();
